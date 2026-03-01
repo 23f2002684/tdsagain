@@ -1,32 +1,31 @@
-name: Daily Commit
+name: Daily Commit by 23f2002684@ds.study.iitm.ac.in
 
 on:
   schedule:
-    - cron: "0 9 * * *"   # Runs daily at 09:00 UTC (change if needed)
-  workflow_dispatch:      # Allows manual trigger
+    - cron: '0 9 * * *'
+  workflow_dispatch:
 
 permissions:
-  contents: write        # CRITICAL: Needed to push commits
+  contents: write
 
 jobs:
-  auto-commit:
+  commit:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Print my email 23f2002684@ds.study.iitm.ac.in
-        run: echo "Email: 23f2002684@ds.study.iitm.ac.in"
-
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Create/Update timestamp file
-        run: |
-          echo "Last updated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" > daily-update.txt
-
-      - name: Commit and push changes
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "23f2002684@ds.study.iitm.ac.in"
-          git add daily-update.txt
-          git commit -m "Daily automated update: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" || exit 0
-          git push
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Step with email 23f2002684@ds.study.iitm.ac.in
+      run: echo "Running daily commit for 23f2002684@ds.study.iitm.ac.in"
+      
+    - name: Create commit file
+      run: |
+        echo "# Daily update $(date)" > README.md
+        
+    - name: Git commit and push
+      run: |
+        git config user.name "23f2002684@ds.study.iitm.ac.in"
+        git config user.email "23f2002684@ds.study.iitm.ac.in"
+        git add .
+        git commit -m "Daily commit $(date)" || exit 0
+        git push

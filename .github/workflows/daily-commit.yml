@@ -1,0 +1,30 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: "0 9 * * *"   # Runs once per day at 09:00 UTC
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print my email
+        run: echo "Email: 23f2002684@ds.study.iitm.ac.in"
+
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false   # required to commit
+
+      - name: Update timestamp file
+        run: |
+          echo "Last updated at $(date -u)" >> daily-update.txt
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add daily-update.txt
+          git commit -m "Daily update: $(date -u)" || echo "No changes to commit"
+
+      - name: Push changes back
+        run: |
+          git push
